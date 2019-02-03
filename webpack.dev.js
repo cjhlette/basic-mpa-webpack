@@ -7,6 +7,9 @@ const webpack = require('webpack');
 /** Simplifies creation of HTML files to serve your webpack bundles. - https://github.com/jantimon/html-webpack-plugin */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+/** This is a simple plugin that uses Imagemin to compress all images in your project. - https://github.com/Klathmon/imagemin-webpack-plugin */
+const ImageminPlugin = require('imagemin-webpack-plugin').default;
+
 let pages = read(path.join(__dirname, 'views'));
 let jsEntries = read(path.join(__dirname, 'src'))
 
@@ -17,10 +20,16 @@ jsEntries.forEach(entry => {
   entries[js] = `./src/${entry}`;
 });
 
+const ASSET_PATH = process.env.ASSET_PATH || '/';
+
 
 module.exports = {
 
   mode: 'development',
+
+  output: {
+    publicPath: ASSET_PATH
+  },
 
   // entry point for webpack to begin compiling
   entry: entries,
@@ -89,7 +98,14 @@ module.exports = {
 
       return plugin;
     }).concat([
+      new ImageminPlugin({
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        optipng: {
+          optimizationLevel: 9
+        }
+      }),
       new webpack.DefinePlugin({
+        'process.env.ASSET_PATH': JSON.stringify(ASSET_PATH),
         NODE_ENV: JSON.stringify('development'),
         PRODUCTION: JSON.stringify(false),
         VERSION: JSON.stringify('5fa3b9'),
