@@ -1,7 +1,7 @@
 /**
  * 모든 페이지 최초 로드 스크립트
  */
-
+import '@babel/polyfill'
 import $ from 'jquery'
 
 require('normalize.css/normalize.css');
