@@ -22,6 +22,8 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 /** This is a simple plugin that uses Imagemin to compress all images in your project. - https://github.com/Klathmon/imagemin-webpack-plugin */
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
 
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 /**  */
 const buildPath = path.resolve(__dirname, 'dist');
 
@@ -54,7 +56,7 @@ module.exports = {
   // how to write the compiled files to disk
   // https://webpack.js.org/concepts/output/
   output: {
-    filename: '[name].js',
+    filename: '[name].js?[hash]',
     path: buildPath
   },
 
@@ -65,8 +67,8 @@ module.exports = {
         test: /\.s?[ac]ss$/,
         use: [
           MiniCssExtractPlugin.loader,
-          { loader: 'css-loader', options: { url: false, sourceMap: true } },
-          { loader: 'sass-loader', options: { sourceMap: true } }
+          { loader: 'css-loader', options: { url: false, sourceMap: false } },
+          { loader: 'sass-loader', options: { sourceMap: false } }
         ]
       },
       {
@@ -87,12 +89,30 @@ module.exports = {
         template: `./views/${page}`,
         inject: true,
         chunks: ['app', `${chunk}`],
-        filename: `${page}`
+        filename: `${page}`,
+        minify   : {
+          html5                          : true,
+          collapseWhitespace             : true,
+          minifyCSS                      : true,
+          minifyJS                       : true,
+          minifyURLs                     : false,
+          removeAttributeQuotes          : true,
+          removeComments                 : true,
+          removeEmptyAttributes          : true,
+          removeOptionalTags             : true,
+          removeRedundantAttributes      : true,
+          removeScriptTypeAttributes     : true,
+          removeStyleLinkTypeAttributese : true,
+          useShortDoctype                : true
+        }
       })
 
       return plugin;
     }).concat([
       new CleanWebpackPlugin(buildPath),
+      new CopyWebpackPlugin([{
+        from: 'public/'
+      }]),
       new ImageminPlugin({
         test: /\.(jpe?g|png|gif|svg)$/i,
         optipng: {
@@ -116,7 +136,7 @@ module.exports = {
         sourceMap: true
       }),
       new MiniCssExtractPlugin({
-        filename: "app.css"
+        filename: "app.css?[hash]"
       }),
       new OptimizeCssAssetsPlugin({})
     ],

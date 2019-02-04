@@ -10,6 +10,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 /** This is a simple plugin that uses Imagemin to compress all images in your project. - https://github.com/Klathmon/imagemin-webpack-plugin */
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
 
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 let pages = read(path.join(__dirname, 'views'));
 let jsEntries = read(path.join(__dirname, 'src'))
 
@@ -20,16 +22,9 @@ jsEntries.forEach(entry => {
   entries[js] = `./src/${entry}`;
 });
 
-const ASSET_PATH = process.env.ASSET_PATH || '/';
-
-
 module.exports = {
 
   mode: 'development',
-
-  output: {
-    publicPath: ASSET_PATH
-  },
 
   // entry point for webpack to begin compiling
   entry: entries,
@@ -49,17 +44,8 @@ module.exports = {
   devServer: {
     port: 9000,
     compress: true,
-
-    // The local filesystem directory where static html files
-    // should be placed to enjoy 'live-reloading'
     contentBase: path.resolve(__dirname, "views"),
-
-    // 'Live-reloading' happens when you make changes to code
-    // dependency pointed to by the 'entry' parameter.
-    // To make live-reloading happen even when changes are made
-    // to the static html pages in 'contentBase', add
-    // 'watchContentBase'
-    watchContentBase: true
+    watchContentBase: true,
   },
 
   // Here be modules
@@ -93,11 +79,14 @@ module.exports = {
         template: `./views/${page}`,
         inject: true,
         chunks: ['app', `${chunk}`],
-        filename: `${page}`
+        filename: `${page}`,
       })
 
       return plugin;
     }).concat([
+      new CopyWebpackPlugin([{
+        from: 'public/'
+      }]),
       new ImageminPlugin({
         test: /\.(jpe?g|png|gif|svg)$/i,
         optipng: {
@@ -105,7 +94,6 @@ module.exports = {
         }
       }),
       new webpack.DefinePlugin({
-        'process.env.ASSET_PATH': JSON.stringify(ASSET_PATH),
         NODE_ENV: JSON.stringify('development'),
         PRODUCTION: JSON.stringify(false),
         VERSION: JSON.stringify('5fa3b9'),

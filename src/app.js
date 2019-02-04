@@ -1,6 +1,12 @@
-// common css
+/**
+ * 모든 페이지 최초 로드 스크립트
+ */
+
+import $ from 'jquery'
 
 require('normalize.css/normalize.css');
-require('../sass/app.scss')
+require('../sass/app.scss');
 
-console.log('App');
+$(document).ready(function(){
+  console.log('%c App.js load','color:red');
+});

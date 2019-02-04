@@ -1,13 +1,2 @@
 // import partials
-
-//공통 css
-a {
-  color: red;
-  font-size: 12px;
-}
-*{
-  font-size: 30px;
-}
-body{
-  background-color: #2b353a;
-}
+@import "./partials/common";

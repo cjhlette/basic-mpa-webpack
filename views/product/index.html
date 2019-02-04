@@ -1,16 +1,23 @@
 <!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="cache-control" content="no-cache"/>
-    <meta http-equiv="pragma" content="no-cache"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
-    <meta name="theme-color" content="#000000">
-    <meta name="google" content="notranslate">
-    <link rel="shortcut icon" href="./assets/images/favicon.ico">
-    <title>Template :: Index</title>
-  </head>
-  <body>
-  product 메인
-  </body>
+<html lang="ko">
+<head>
+    <%= require('html-loader!../include/head.html') %>
+</head>
+<body>
+<%= require('html-loader!../include/bodyStart.html') %>
+
+<header>
+    <%= require('html-loader!../include/header.html') %>
+</header>
+
+<section>
+    product 화면
+</section>
+
+<footer>
+    <%= require('html-loader!../include/footer.html') %>
+</footer>
+
+<%= require('html-loader!../include/bodyEnd.html') %>
+</body>
 </html>
