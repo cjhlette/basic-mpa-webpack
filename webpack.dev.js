@@ -1,21 +1,18 @@
-const read = require('fs-readdir-recursive')
-const path = require('path')
+const read = require('fs-readdir-recursive');
+const path = require('path');
 
-/** to access built-in plugin. - https://webpack.js.org/concepts/#plugins */
 const webpack = require('webpack');
 
-/** Simplifies creation of HTML files to serve your webpack bundles. - https://github.com/jantimon/html-webpack-plugin */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-/** This is a simple plugin that uses Imagemin to compress all images in your project. - https://github.com/Klathmon/imagemin-webpack-plugin */
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 let pages = read(path.join(__dirname, 'views'));
-let jsEntries = read(path.join(__dirname, 'src'))
+let jsEntries = read(path.join(__dirname, 'src'));
 
-let entries = {}
+let entries = {};
 
 jsEntries.forEach(entry => {
   let js = entry.replace(/(\.\w+)/g, '');
@@ -26,21 +23,22 @@ module.exports = {
 
   mode: 'development',
 
-  // entry point for webpack to begin compiling
   entry: entries,
 
-  // Webpack will watch files and recompile whenever they change
-  // if neccesary
   watch: true,
 
-  // Control options related to watching the files.
   watchOptions: {
     aggregateTimeout: 300,
     poll: 1000,
     ignored: /node_modules/
   },
 
-  // dev Server setup
+  stats: {
+    colors: true
+  },
+
+  devtool: 'source-map',
+
   devServer: {
     port: 9000,
     compress: true,
@@ -48,26 +46,8 @@ module.exports = {
     watchContentBase: true,
   },
 
-  // Here be modules
-  // https://webpack.js.org/loaders/
   module: {
     rules: [
-      {
-        test: /\.(png|jpg|gif)$/,
-        loader: "url-loader?limit=100&name=img/img-[hash:6].[ext]"
-      },
-      {
-        test: /\.(png|jpg|gif)$/,
-        use: {
-          loader: 'responsive-loader',
-          options: {
-            sizes: [300],
-            placeholder: true,
-            placeholderSize: 50,
-            name: 'imgs/[name]-[width].[ext]'
-          }
-        }
-      },
       {
         test: /\.html$/,
         use: {
@@ -93,8 +73,6 @@ module.exports = {
     ]
   },
 
-  // Here be plugins
-  // https://webpack.js.org/concepts/plugins/
   plugins:
     pages.map(page => {
 
@@ -105,7 +83,7 @@ module.exports = {
         inject: true,
         chunks: ['app', `${chunk}`],
         filename: `${page}`
-      })
+      });
 
       return plugin;
     }).concat([
@@ -123,7 +101,6 @@ module.exports = {
         PRODUCTION: JSON.stringify(false),
         VERSION: JSON.stringify('5fa3b9'),
       })
-    ]),
+    ])
 
-
-}
+};
