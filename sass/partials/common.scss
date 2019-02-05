@@ -2,11 +2,14 @@
 
 //공통 css
 $bluegrey: #2b3a42;
+$font-stack:    Helvetica, sans-serif;
+$primary-color: white;
 
 body {
+  font: 100% $font-stack;
+  color: $primary-color;
   background-color:black;
   //background-image:url("/assets/images/test.png");
-  color:white;
 }
 
 pre {

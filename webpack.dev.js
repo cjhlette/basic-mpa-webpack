@@ -79,7 +79,7 @@ module.exports = {
         template: `./views/${page}`,
         inject: true,
         chunks: ['app', `${chunk}`],
-        filename: `${page}`,
+        filename: `${page}`
       })
 
       return plugin;
