@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <%= require('html-loader!./include/head.html') %>
+    ${require('./include/head.html')}
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
 </head>
 <body>
-<%= require('html-loader!./include/bodyStart.html') %>
+${require('./include/bodyStart.html')}
 
 <header>
-  <%= require('html-loader!./include/header.html') %>
+    ${require('./include/header.html')}
 </header>
 
 <section>
-  <img src="/assets/images/test.png"/>
+  <!--<img src="/assets/images/test.png"/>-->
+  <img src="$require('../public/assets/images/test.png').placeholder"/>
 
   메인 화면
 </section>
 
 <footer>
-  <%= require('html-loader!./include/footer.html') %>
+    ${require('./include/footer.html')}
 </footer>
 
-<%= require('html-loader!./include/bodyEnd.html') %>
+${require('./include/bodyEnd.html')}
 </body>
 </html>

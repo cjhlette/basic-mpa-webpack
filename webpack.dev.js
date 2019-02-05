@@ -53,6 +53,31 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(png|jpg|gif)$/,
+        loader: "url-loader?limit=100&name=img/img-[hash:6].[ext]"
+      },
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: {
+          loader: 'responsive-loader',
+          options: {
+            sizes: [300],
+            placeholder: true,
+            placeholderSize: 50,
+            name: 'imgs/[name]-[width].[ext]'
+          }
+        }
+      },
+      {
+        test: /\.html$/,
+        use: {
+          loader: 'html-loader',
+          options: {
+            interpolate: true
+          }
+        }
+      },
+      {
         test: /\.css|scss$/,
         use: [
           'style-loader', // creates style nodes from JS strings
