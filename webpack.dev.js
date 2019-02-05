@@ -14,10 +14,10 @@ let jsEntries = read(path.join(__dirname, 'src'));
 
 let entries = {};
 
-jsEntries.forEach(entry => {
+for (const entry of jsEntries) {
   let js = entry.replace(/(\.\w+)/g, '');
   entries[js] = `./src/${entry}`;
-});
+}
 
 module.exports = {
 
