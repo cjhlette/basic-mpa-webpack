@@ -3,12 +3,22 @@
 //공통 css
 $bluegrey: #2b3a42;
 $font-stack:    Helvetica, sans-serif;
-$primary-color: white;
+$primary-color: black;
+
+* {
+
+}
+
+a {
+  color:red;
+}
+
 
 body {
-  font: 100% $font-stack;
+  //margin: 10px;
+  //font: 100% $font-stack;
   color: $primary-color;
-  background-color:black;
+  background-color:white;
   //background-image:url("/assets/images/test.png");
 }
 

@@ -4,10 +4,7 @@
 import '@babel/polyfill'
 import $ from 'jquery'
 
-//require('normalize.css/normalize.css');
-//require('../sass/app.scss');
-
-import 'normalize.css/normalize.css'
+// import 'normalize.css/normalize.css'
 import '../sass/app.scss'
 
 console.log('%c app.js load','color:red');
