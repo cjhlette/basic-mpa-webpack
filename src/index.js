@@ -1,2 +1,1 @@
-
-console.log('Index');
+console.log('%c index.js load','color:red');
